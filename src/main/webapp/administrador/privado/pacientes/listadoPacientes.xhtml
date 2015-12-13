@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:composition template="/plantillas/plantillaGlobal.xhtml">
+
+        <ui:define name="tituloPagina">
+            Gestión de Pacientes
+        </ui:define>
+
+        <ui:define name="izquierda">
+            <ui:include src="/administrador/plantillas/menuAdministrador.xhtml"/>                
+        </ui:define>
+
+        <ui:define name="contenido">
+
+            <h:messages  id="mensajes"/>
+
+            <h:form id="formularioListado">     
+                <p:panel>
+                    <p:dataTable id="tablaListado"
+                                 value="#{gestionPacientesControlador.pacientes}"
+                                 var="paciente" 
+                                 selection="#{gestionPacientesControlador.pacienteActual}"
+                                 selectionMode="single"
+                                 paginator="true" paginatorPosition="bottom" rows="10" rowKey="#{paciente.id}">
+
+                        <p:ajax event="rowSelect"   update="botonNuevo botonVer botonEditar botonBorrar"/>
+
+                        <f:facet name="header">
+                            <h:outputText value="Listado de Pacientes"/>
+                        </f:facet>                        
+
+                        <p:column headerText="Id">
+                            <p:outputLabel value="#{paciente.id}"/>
+                        </p:column>
+                        
+                        <p:column headerText="DNI">
+                            <p:outputLabel value="#{paciente.dni}" />
+                        </p:column>                    
+                        
+                        <p:column headerText="Nombre y apellidos">
+                            <p:outputLabel value="#{paciente.apellidos}, #{paciente.nombre}" />
+                        </p:column>                    
+
+                        <p:column headerText="Num. Seg. Social">
+                            <p:outputLabel value="#{paciente.numeroSeguridadSocial}" />
+                        </p:column>
+
+                        <p:column headerText="Num. Tarjeta Sanitaria">
+                            <p:outputLabel value="#{paciente.numeroTarjetaSanitaria}" />
+                        </p:column>
+                        
+                        <p:column headerText="Direccion">
+                            <p:outputLabel value="#{farmacia.direccion.domicilio}. #{farmacia.direccion.localidad} (#{farmacia.direccion.provincia})" />
+                        </p:column>                    
+                        
+                        <p:column headerText="Teléfono">
+                            <p:outputLabel value="#{paciente.telefono}" />
+                        </p:column>
+
+                        <p:column headerText="e-mail">
+                            <p:outputLabel value="#{paciente.email}" />
+                        </p:column>
+
+                        <p:column headerText="Fecha de alta">
+                            <p:outputLabel value="#{paciente.fechaAlta}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>                        
+                        
+                        <p:column headerText="Ultimo acceso">
+                            <p:outputLabel value="#{paciente.ultimoAcceso}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton id="botonNuevo"  icon="ui-icon-plus"   value="Nuevo"  actionListener="#{gestionPacientesControlador.doNuevo()}" update=":formularioNuevo" oncomplete="PF('DialogoNuevo').show()"/>
+                            <p:commandButton id="botonVer"    icon="ui-icon-search" value="Ver"    update=":formularioVer" oncomplete="PF('DialogoVer').show()" disabled="#{empty gestionPacientesControlador.pacienteActual}"/>
+                            <p:commandButton id="botonEditar" icon="ui-icon-pencil" value="Editar" update=":formularioEditar" oncomplete="PF('DialogoEditar').show()" disabled="#{empty gestionPacientesControlador.pacienteActual}"/>
+                            <p:commandButton id="botonBorrar" icon="ui-icon-trash"  value="Borrar" actionListener="#{gestionPacientesControlador.doEliminar()}" update=":mensajes,tablaListado" disabled="#{empty gestionPacientesControlador.pacienteActual}"/>
+                        </f:facet>
+
+                    </p:dataTable>
+                </p:panel>
+            </h:form>         
+
+            <ui:include src="fragmentoDialogoNuevo.xhtml"/>
+            <ui:include src="fragmentoDialogoEditar.xhtml"/>
+            <ui:include src="fragmentoDialogoVer.xhtml"/>
+
+        </ui:define>
+
+    </ui:composition>
+</html>
+
