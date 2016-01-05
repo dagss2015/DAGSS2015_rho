@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:dialog id="dialogoNuevaPrescripcion" widgetVar="DialogoNuevaPrescripcion" modal="true" resizable="false" appendTo="@(body)" header="Nueva prescripción">
+            <h:form id="formularioNuevaPrescripcion">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{citasControlador.prescripcionActual != null}">
+                        <h:outputLabel value="Medicamento:" for="medicamento"/>
+                        <p:autoComplete id="medicamento" value="#{citasControlador.medicamentoSeleccionado}" 
+                                        var="medicamento" completeMethod="#{citasControlador.getMedicamentos}"                                        
+                                        itemValue="#{medicamento}" itemLabel="#{medicamento.nombre}" converter="medicamentoConverter"
+                                        dropdown="true" forceSelection="true" cache="true" maxResults="200">
+                            <p:column>
+                                <h:outputText value="#{medicamento.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{medicamento.familia}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{medicamento.fabricante}"/>
+                            </p:column>
+                        </p:autoComplete>
+                        
+                        <h:outputLabel value="Dosis" for="dosis"/>
+                        <p:spinner id="dosis" value="#{citasControlador.prescripcionActual.dosis}" min="1" />
+                        
+                        <h:outputLabel value="Indicaciones:" for="indicaciones"/>
+                        <h:inputTextarea id="indicaciones" value="#{citasControlador.prescripcionActual.indicaciones}"></h:inputTextarea>
+                    </p:panelGrid>
+                    <p:commandButton value="Añadir" actionListener="#{citasControlador.anadirNuevaPrescripcion()}"  
+                                     update="display,:formularioTratamiento:tablaPrescripciones,:mensajes" 
+                                     oncomplete="PF('DialogoNuevaPrescripcion').hide()"/>
+                    <p:commandButton value="Cancelar" onclick="PF('DialogoNuevaPrescripcion').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -48,8 +48,7 @@ public class Cita implements Serializable {
     Long version;    
     
     
-    public Cita() {
-    }
+    public Cita() {}
 
     public Cita(Paciente paciente, Medico medico, Date fecha, Date hora, Integer duracion, EstadoCita estado) {
         this.paciente = paciente;

@@ -17,7 +17,7 @@ public abstract class GenericoDAO<T> {
     @PersistenceContext(unitName = "dagss-PU")
     protected EntityManager em;
 
-    protected Class<T> claseEntidad;  // TODO: inicializar aqui y omitir comprobacion+llamada a metodo
+    protected Class<T> claseEntidad; // TODO: inicializar aqui y omitir comprobacion+llamada a metodo
 
     private void establecerClaseEntidad() {
         // Identifica la clase real de las entidades gestionada por este objeto (T.class)
@@ -31,11 +31,11 @@ public abstract class GenericoDAO<T> {
     }
 
     public T actualizar(T entidad) {
-        return em.merge(entidad);   // Actualiza los datos de la "entidad" en su correspondiente tupla BD
+        return em.merge(entidad); // Actualiza los datos de la "entidad" en su correspondiente tupla BD
     }
 
     public void eliminar(T entidad) {
-        em.remove(em.merge(entidad));  // Actualiza y elimina
+        em.remove(em.merge(entidad)); // Actualiza y elimina
     }
 
     public T buscarPorId(Object id) {
@@ -79,11 +79,12 @@ public abstract class GenericoDAO<T> {
     protected T filtrarResultadoUnico(Query query) {
         List<T> resultados = query.getResultList();
         if (resultados == null) {
-            return null;  // No encontrado
+            return null; // No encontrado
         } else if (resultados.size() != 1) {
             return null; // No encontrado (hay más con el mismo login ¿?)
         } else {
-            return resultados.get(0);  // Devuelve el encontrado
+            return resultados.get(0); // Devuelve el encontrado
         }
     }
+
 }

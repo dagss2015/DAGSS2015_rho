@@ -19,4 +19,5 @@ public enum EstadoCita {
     public String getEtiqueta() {
         return etiqueta;
     }
+
 }

@@ -72,10 +72,11 @@
                             </p:column>
 
                             <f:facet name="footer">
-                                <p:commandButton id="botonNuevo"  icon="ui-icon-plus"   value="Nueva"  actionListener="#{gestionCitasControlador.doNuevo()}" update=":formularioNuevo" oncomplete="PF('DialogoNuevo').show()"/>
-                                <p:commandButton id="botonVer"    icon="ui-icon-search" value="Ver"    update=":formularioVer" oncomplete="PF('DialogoVer').show()" disabled="#{empty gestionCitasControlador.citaActual}"/>
+                                <p:commandButton id="botonNuevo"  icon="ui-icon-plus"   value="Nueva"  update=":formularioNuevo"  oncomplete="PF('DialogoNuevo').show()"  actionListener="#{gestionCitasControlador.doNuevo()}"/>
+                                <p:commandButton id="botonVer"    icon="ui-icon-search" value="Ver"    update=":formularioVer"    oncomplete="PF('DialogoVer').show()"    disabled="#{empty gestionCitasControlador.citaActual}"/>
                                 <p:commandButton id="botonEditar" icon="ui-icon-pencil" value="Editar" update=":formularioEditar" oncomplete="PF('DialogoEditar').show()" disabled="#{empty gestionCitasControlador.citaActual}"/>
-                                <p:commandButton id="botonBorrar" icon="ui-icon-trash"  value="Borrar" actionListener="#{gestionCitasControlador.doEliminar()}" update=":mensajes,tablaListado" disabled="#{empty gestionCitasControlador.citaActual}"/>
+                                <p:commandButton id="botonBorrar" icon="ui-icon-trash"  value="Borrar" update=":mensajes,tablaListado"                                    actionListener="#{gestionCitasControlador.doEliminar()}" 
+                                                                                                                                                                          disabled="#{empty gestionCitasControlador.citaActual}"/>
                             </f:facet>
 
                         </p:dataTable>

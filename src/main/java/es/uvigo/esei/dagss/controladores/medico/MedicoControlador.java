@@ -4,7 +4,6 @@
 package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
-import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
@@ -33,15 +32,13 @@ public class MedicoControlador implements Serializable {
     @Inject
     private AutenticacionControlador autenticacionControlador;
     
-
     @EJB
     private MedicoDAO medicoDAO;
 
     /**
-     * Creates a new instance of AdministradorControlador
+     * Creates a new instance of MedicoControlador
      */
-    public MedicoControlador() {
-    }
+    public MedicoControlador() {}
 
     public String getDni() {
         return dni;
@@ -111,8 +108,9 @@ public class MedicoControlador implements Serializable {
         return destino;
     }
 
-    //Acciones
+    // Acciones
     public String doShowCita() {
         return "detallesCita";
     }
+
 }

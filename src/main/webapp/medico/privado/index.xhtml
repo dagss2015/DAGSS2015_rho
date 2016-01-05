@@ -5,22 +5,19 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     <body>
-
         <ui:composition template="/plantillas/plantillaGlobal.xhtml">
-
             <ui:define name="tituloPagina">
-                tituloPagina
+                Área de médicos
             </ui:define>            
 
             <ui:define name="izquierda">
-                izquierda
+                <ui:include src="/medico/plantillas/menuMedico.xhtml"/>
             </ui:define>
 
             <ui:define name="contenido">
+                <h:outputText value="Bienvenido al área de médicos de la aplicación. Puede utiliar el menú izquierdo para navegar a diferentes secciones."/>
             </ui:define>
         </ui:composition>
-
     </body>
 </html>

@@ -43,13 +43,12 @@ public class Tratamiento implements Serializable {
     Date fechaFin;
 
     @OneToMany(mappedBy = "tratamiento", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<Prescripcion> prescipciones = new ArrayList<Prescripcion>();
+    List<Prescripcion> prescripciones = new ArrayList<>();
 
     @Version
     Long version;
 
-    public Tratamiento() {
-    }
+    public Tratamiento() {}
 
     public Tratamiento(Paciente paciente, Medico medico, String comentarios, Date fechaInicio, Date fechaFin) {
         this.paciente = paciente;
@@ -107,12 +106,12 @@ public class Tratamiento implements Serializable {
         this.fechaFin = fechaFin;
     }
 
-    public List<Prescripcion> getPrescipciones() {
-        return prescipciones;
+    public List<Prescripcion> getPrescripciones() {
+        return prescripciones;
     }
 
-    public void setPrescipciones(List<Prescripcion> prescipciones) {
-        this.prescipciones = prescipciones;
+    public void setPrescripciones(List<Prescripcion> prescripciones) {
+        this.prescripciones = prescripciones;
     }
 
     @Override
@@ -141,8 +140,5 @@ public class Tratamiento implements Serializable {
     public String toString() {
         return "Tratamiento{" + "id=" + id + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + '}';
     }
-
-    
- 
     
 }

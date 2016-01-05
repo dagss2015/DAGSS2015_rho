@@ -47,8 +47,7 @@ public class Receta implements Serializable {
     @Version
     Long version;
 
-    public Receta() {
-    }
+    public Receta() {}
 
     public Receta(Prescripcion prescripcion, Integer cantidad, Date inicioValidez, Date finValidez, EstadoReceta estadoReceta) {
         this(prescripcion, cantidad, inicioValidez, finValidez, estadoReceta, null);
@@ -128,20 +127,11 @@ public class Receta implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Receta other = (Receta) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
-
-    
-
     
 }

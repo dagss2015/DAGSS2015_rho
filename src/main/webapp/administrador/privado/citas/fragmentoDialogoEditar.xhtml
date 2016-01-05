@@ -28,8 +28,7 @@
                             <f:selectItems var="itemMedico" value="#{gestionCitasControlador.listadoMedicos}"                                           
                                            itemValue="#{itemMedico}" 
                                            itemLabel="#{itemMedico.apellidos}, #{itemMedico.nombre} (#{itemMedico.centroSalud.nombre}, #{itemMedico.centroSalud.direccion.localidad}) DNI: #{itemMedico.dni}" />
-                        </p:selectOneMenu>  
-
+                        </p:selectOneMenu>
 
                         <h:outputLabel value="Fecha:" for="fecha"/>
                         <p:calendar id="fecha" value="#{gestionCitasControlador.citaActual.fecha}"/>

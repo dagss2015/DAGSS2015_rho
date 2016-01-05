@@ -112,24 +112,21 @@ public class Medicamento implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Medicamento other = (Medicamento) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
-
+    
+    /**
+     * Necesario que identifique de forma única el recurso para poder utilizar
+     * el "Converter" por defecto omnifaces.SelectItemsConverter en distintos
+     * elementos de la interfaz.
+     */
     @Override
     public String toString() {
         return "Medicamento{" + "id=" + id + ", nombre=" + nombre + '}';
     }
-
-
     
 }

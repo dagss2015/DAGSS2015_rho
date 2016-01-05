@@ -40,8 +40,7 @@ public class GestionCitasControlador implements Serializable {
     List<Cita> citas;
     Cita citaActual;
 
-    public GestionCitasControlador() {
-    }
+    public GestionCitasControlador() {}
 
     @PostConstruct
     public void inicializar() {
@@ -91,7 +90,7 @@ public class GestionCitasControlador implements Serializable {
     }
 
     public void doEditar(Cita cita) {
-        citaActual = cita;   // Otra alternativa: volver a refrescarlos desde el DAO
+        citaActual = cita; // Otra alternativa: volver a refrescarlos desde el DAO
     }
 
     public void doGuardarNuevo() {

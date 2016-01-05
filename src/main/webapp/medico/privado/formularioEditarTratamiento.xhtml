@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+  
+        <ui:composition template="/plantillas/plantillaGlobal.xhtml">
+
+            <ui:define name="tituloPagina">
+                Formulario del paciente #{citasControlador.citaActual.paciente.apellidos}, #{citasControlador.citaActual.paciente.nombre} (#{citasControlador.citaActual.paciente.direccion.localidad}) DNI: #{citasControlador.citaActual.paciente.dni}
+            </ui:define>
+
+            <ui:define name="izquierda">
+                <ui:include src="/medico/plantillas/menuMedico.xhtml"/>                
+            </ui:define>
+
+            <ui:define name="contenido">
+
+                <p:growl id="mensajes" life="3000" />
+
+                <h:form id="formularioTratamiento">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{citasControlador.tratamientoActual != null}">
+                            <h:outputLabel value="Fecha inicio:" for="fechainicio"/>
+                            <p:calendar id="fechainicio" value="#{citasControlador.tratamientoActual.fechaInicio}"/>
+
+                            <h:outputLabel value="Fecha fin:" for="fechafin"/>
+                            <p:calendar id="fechafin" value="#{citasControlador.tratamientoActual.fechaFin}"/>
+
+                            <h:outputLabel value="Comentarios:" for="comentarios"/>
+                            <h:inputTextarea id="comentarios" value="#{citasControlador.tratamientoActual.comentarios}"></h:inputTextarea>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                   
+                    <p:panel>
+                        <p:dataTable id="tablaPrescripciones"
+                                     value="#{citasControlador.tratamientoActual.prescripciones}"
+                                     var="presc" 
+                                     selection="#{citasControlador.prescripcionActual}"
+                                     selectionMode="single" 
+                                     paginator="true" paginatorPosition="bottom" rows="10" rowKey="#{presc.id}">
+
+                            <p:ajax event="rowSelect" update="botonNuevaPrescripcion botonBorrarPrescripcion"/>
+
+                            <f:facet name="header">
+                                <h:outputText value="Prescripciones asociadas"/>
+                            </f:facet>
+
+                            <p:column headerText="Medicamento">
+                                <p:outputLabel value="#{presc.medicamento.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Dosis">
+                                <p:outputLabel value="#{presc.dosis}"/>
+                            </p:column>
+
+                            <p:column headerText="Indicaciones">
+                                <p:outputLabel value="#{presc.indicaciones}"/>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="botonNuevaPrescripcion" value="Nueva" icon="ui-icon-plus"
+                                                 update=":formularioNuevaPrescripcion"
+                                                 actionListener="#{citasControlador.doNuevaPrescripcion()}"
+                                                 onclick="PF('DialogoNuevaPrescripcion').show()" />
+                                <p:commandButton id="botonBorrarPrescripcion" value="Eliminar" icon="ui-icon-trash"
+                                                 update=":formularioTratamiento:tablaPrescripciones"
+                                                 actionListener="#{citasControlador.borrarPrescripcion()}"
+                                                 disabled="#{empty citasControlador.prescripcionActual}"/>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+                        
+                    <p:commandButton value="Guardar tratamiento" actionListener="#{citasControlador.doEditarTratamiento()}"  
+                                     update=":mensajes"
+                                     action="/medico/privado/listadoTratamientos?faces-redirect=true"/>
+                    <p:commandButton value="Volver" action="/medico/privado/listadoTratamientos?faces-redirect=true"/>
+                </h:form>
+
+                <ui:include src="dialogoNuevaPrescripcion.xhtml"/>
+
+            </ui:define>
+
+        </ui:composition>
+
+</html>
+

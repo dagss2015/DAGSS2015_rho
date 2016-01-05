@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+  
+        <ui:composition template="/plantillas/plantillaGlobal.xhtml">
+
+            <ui:define name="tituloPagina">
+                Listado de tratamientos del paciente #{citasControlador.citaActual.paciente.apellidos}, #{citasControlador.citaActual.paciente.nombre} (#{citasControlador.citaActual.paciente.direccion.localidad}) DNI: #{citasControlador.citaActual.paciente.dni}
+            </ui:define>
+
+            <ui:define name="izquierda">
+                <ui:include src="/medico/plantillas/menuMedico.xhtml"/>                
+            </ui:define>
+
+            <ui:define name="contenido">
+
+                <p:growl id="mensajes" life="3000" />
+
+                <h:form id="formularioListadoTratamientos">     
+                    <p:panel>
+                        <p:dataTable id="listadoTratamientos"
+                                     value="#{citasControlador.tratamientos}"
+                                     var="trat" 
+                                     selection="#{citasControlador.tratamientoActual}"
+                                     selectionMode="single" 
+                                     paginator="true" paginatorPosition="bottom" rows="10" rowKey="#{trat.id}">
+
+                            <p:ajax event="rowSelect" update="botonNuevoTratamiento botonEditarTratamiento botonBorrarTratamiento"/>
+
+                            <f:facet name="header">
+                                <h:outputText value="Tratamientos"/>
+                            </f:facet>
+                            
+                            <p:column headerText="Inicio">
+                                <p:outputLabel value="#{trat.fechaInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            
+                            <p:column headerText="Fin">
+                                <p:outputLabel value="#{trat.fechaFin}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            
+                            <p:column headerText="Comentarios">
+                                <p:outputLabel value="#{trat.comentarios}"/>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="botonNuevoTratamiento" value="Nuevo" icon="ui-icon-search"
+                                                 action="/medico/privado/formularioNuevoTratamiento?faces-redirect=true"
+                                                 actionListener="#{citasControlador.doNuevoTratamiento()}"/>
+                                <p:commandButton id="botonEditarTratamiento" icon="ui-icon-pencil" value="Editar" 
+                                                 action="/medico/privado/formularioEditarTratamiento?faces-redirect=true"
+                                                 disabled="#{empty citasControlador.tratamientoActual}"/>
+                                <p:commandButton id="botonBorrarTratamiento" icon="ui-icon-trash" value="Eliminar"
+                                                 actionListener="#{citasControlador.doBorrarTratamiento()}"
+                                                 disabled="#{empty citasControlador.tratamientoActual}"
+                                                 update=":mensajes,:formularioListadoTratamientos:listadoTratamientos"/>
+                                <p:commandButton value="Volver" action="/medico/privado/listadoCitas?faces-redirect=true"/>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+</html>
+

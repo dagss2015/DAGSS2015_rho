@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="dialogoCambiarEstadoCita" widgetVar="DialogoCambiarEstadoCita" modal="true" resizable="false" appendTo="@(body)" header="Cambiando estado de cita">
+            <h:form id="formularioCambiarEstadoCita">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{citasControlador.citaActual != null}">
+
+                        <h:outputLabel value="Nuevo estado:" for="estado"/>
+                        <h:selectOneMenu value="#{citasControlador.citaActual.estado}" >
+                            <f:selectItems value="#{citasControlador.estadosCitas}" />
+                        </h:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="Guardar" actionListener="#{citasControlador.doGuardarEditado()}"  
+                                     update="display,:formularioListado:tablaListado,:mensajes"
+                                     oncomplete="PF('DialogoCambiarEstadoCita').hide()"/>
+                    <p:commandButton value="Cancelar" onclick="PF('DialogoCambiarEstadoCita').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

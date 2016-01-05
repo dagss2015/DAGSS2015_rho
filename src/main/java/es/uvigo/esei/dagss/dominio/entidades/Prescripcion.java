@@ -13,7 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -40,13 +39,12 @@ public class Prescripcion implements Serializable {
     Integer dosis;
 
     @OneToMany(mappedBy = "prescripcion", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<Receta> recetas = new ArrayList<Receta>();
+    List<Receta> recetas = new ArrayList<>();
 
     @Version
     Long version;
 
-    public Prescripcion() {
-    }
+    public Prescripcion() {}
 
     public Prescripcion(String indicaciones, Tratamiento tratamiento, Medicamento medicamento, Integer dosis) {
         this.indicaciones = indicaciones;
@@ -102,6 +100,27 @@ public class Prescripcion implements Serializable {
     public void setRecetas(List<Receta> recetas) {
         this.recetas = recetas;
     }
+    
+    // Útil para distinguir las prescripciones de un tratamiento antes de haber
+    // persistido su información en la base de datos
+    /* public int getRowKey() {
+        return hashCodeAlt();
+    }
+    
+    private int hashCodeAlt() {
+        if (this.dosis == null ||
+            this.tratamiento == null ||
+            this.medicamento == null ||
+            this.indicaciones == null) {
+            throw new NullPointerException("Imposible generar código hash alternativo sin medicamento, dosis, indicaciones y tratamiento");
+        }
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.indicaciones +
+                                            this.dosis.toString() +
+                                            this.medicamento.id.toString() + 
+                                            this.tratamiento.id.toString());
+        return hash;
+    } */
 
     @Override
     public int hashCode() {
@@ -112,17 +131,11 @@ public class Prescripcion implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Prescripcion other = (Prescripcion) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.id, other.id);
     }
 
 }
