@@ -29,7 +29,7 @@
                                      selectionMode="single" 
                                      paginator="true" paginatorPosition="bottom" rows="10" rowKey="#{trat.id}">
 
-                            <p:ajax event="rowSelect" update="botonNuevoTratamiento botonEditarTratamiento botonBorrarTratamiento"/>
+                            <p:ajax event="rowSelect" update="botonNuevoTratamiento botonEditarTratamiento botonBorrarTratamiento botonGenerarPlanRecetas"/>
 
                             <f:facet name="header">
                                 <h:outputText value="Tratamientos"/>
@@ -62,6 +62,10 @@
                                                  actionListener="#{citasControlador.doBorrarTratamiento()}"
                                                  disabled="#{empty citasControlador.tratamientoActual}"
                                                  update=":mensajes,:formularioListadoTratamientos:listadoTratamientos"/>
+                                <p:commandButton id="botonGenerarPlanRecetas" icon="ui-icon-document" value="Generar plan de recetas"
+                                                 actionListener="#{citasControlador.doGenerarPlanRecetas()}"
+                                                 disabled="#{empty citasControlador.tratamientoActual}"
+                                                 update=":mensajes"/>
                                 <p:commandButton value="Volver" action="/medico/privado/listadoCitas?faces-redirect=true"/>
                             </f:facet>
 
