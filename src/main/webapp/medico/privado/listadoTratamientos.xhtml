@@ -34,19 +34,19 @@
                             <f:facet name="header">
                                 <h:outputText value="Tratamientos"/>
                             </f:facet>
-                            
+
                             <p:column headerText="Inicio">
                                 <p:outputLabel value="#{trat.fechaInicio}">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            
+
                             <p:column headerText="Fin">
                                 <p:outputLabel value="#{trat.fechaFin}">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </p:outputLabel>
                             </p:column>
-                            
+
                             <p:column headerText="Comentarios">
                                 <p:outputLabel value="#{trat.comentarios}"/>
                             </p:column>
@@ -62,6 +62,7 @@
                                                  actionListener="#{citasControlador.doBorrarTratamiento()}"
                                                  disabled="#{empty citasControlador.tratamientoActual}"
                                                  update=":mensajes,:formularioListadoTratamientos:listadoTratamientos"/>
+                                <!-- Observar el resultado en la base de datos (tabla "RECETAS") -->
                                 <p:commandButton id="botonGenerarPlanRecetas" icon="ui-icon-document" value="Generar plan de recetas"
                                                  actionListener="#{citasControlador.doGenerarPlanRecetas()}"
                                                  disabled="#{empty citasControlador.tratamientoActual}"

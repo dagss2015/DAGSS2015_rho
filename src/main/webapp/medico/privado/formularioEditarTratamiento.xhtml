@@ -49,7 +49,7 @@
                             </f:facet>
 
                             <p:column headerText="Medicamento">
-                                <p:outputLabel value="#{presc.medicamento.id}"/>
+                                <p:outputLabel value="#{presc.medicamento.nombre}"/>
                             </p:column>
 
                             <p:column headerText="Dosis">
@@ -65,8 +65,9 @@
                                                  update=":formularioNuevaPrescripcion"
                                                  actionListener="#{citasControlador.doNuevaPrescripcion()}"
                                                  onclick="PF('DialogoNuevaPrescripcion').show()" />
+                                <!-- FIXME: no funciona tras haber generado un plan de recetas para el tratamiento concreto (borrar prescripciones en otros tratamientos sí funciona) -->
                                 <p:commandButton id="botonBorrarPrescripcion" value="Eliminar" icon="ui-icon-trash"
-                                                 update=":formularioTratamiento:tablaPrescripciones"
+                                                 update=":formularioTratamiento:tablaPrescripciones,:mensajes"
                                                  actionListener="#{citasControlador.borrarPrescripcion()}"
                                                  disabled="#{empty citasControlador.prescripcionActual}"/>
                             </f:facet>

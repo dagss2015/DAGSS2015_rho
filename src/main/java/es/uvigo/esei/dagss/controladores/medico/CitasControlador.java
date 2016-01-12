@@ -35,7 +35,8 @@ import javax.inject.Named;
 @SessionScoped
 public class CitasControlador implements Serializable {
 
-    static final public int VALIDEZ_RECETA_POR_DEFECTO = 7; // Recetas con validez de una semana
+    static final public int RECETA_VALIDEZ_POR_DEFECTO = 7; // Recetas con validez de una semana
+    static final public int RECETA_CANTIDAD_POR_DEFECTO = 1;
 
     @EJB
     CitaDAO citaDAO;
@@ -65,8 +66,8 @@ public class CitasControlador implements Serializable {
 
     @PostConstruct
     public void inicializar() {
-        citas = citaDAO.buscarPorFecha("2014-01-15"); // Citas en cierta fecha (ejemplo conocido en la base de datos, para pruebas)
-        // citas = citaDAO.buscarPorFecha(); // Citas de «hoy»
+        // citas = citaDAO.buscarPorFecha("2014-01-15"); // Citas en cierta fecha (ejemplo conocido en la base de datos, para pruebas)
+        citas = citaDAO.buscarPorFecha(); // Citas de «hoy»
     }
 
     // Usado en la lista desplegable con los estados de una cita
@@ -215,6 +216,8 @@ public class CitasControlador implements Serializable {
         // Necesitamos persistir las prescripciones de antemano para contentar
         // al elemento "dataTable" de la vista
         prescripcionActual.setMedicamento(medicamentoSeleccionado);
+        // Vaciar el autocomplete para siguientes veces
+        medicamentoSeleccionado = null;
         prescripcionActual = prescripcionDAO.crear(prescripcionActual);
         tratamientoActual.getPrescripciones().add(prescripcionActual);
         
@@ -254,25 +257,28 @@ public class CitasControlador implements Serializable {
         if (tratamientoActual != null) {
             Date fechaInicio = tratamientoActual.getFechaInicio();
             long duracionTratamientoMs = tratamientoActual.getFechaFin().getTime() - tratamientoActual.getFechaInicio().getTime();
-            int duracionTratamientoDays = (int) (duracionTratamientoMs / MS_IN_DAY);
+            int duracionTratamientoDays = (int) Math.ceil((double) duracionTratamientoMs / MS_IN_DAY);
 
             for (Prescripcion p : tratamientoActual.getPrescripciones()) {
-                if (p.getMedicamento() == null || p.getDosis() == null || p.getDosis() == 0) {
+                if (p.getMedicamento() == null
+                    || p.getDosis() == null 
+                    || p.getDosis() == 0
+                    || p.getMedicamento().getNumeroDosis() == 0) {
                     continue;
                 }
-                
+
                 int totalDosis = duracionTratamientoDays * p.getDosis();
-                int totalPaquetesMedicamento = (int) Math.ceil(totalDosis / p.getMedicamento().getNumeroDosis());
-                int intervaloPaquetesDays = (int) Math.ceil(duracionTratamientoDays / totalPaquetesMedicamento);
-                
+                int totalPaquetesMedicamento = (int) Math.ceil((double) totalDosis / p.getMedicamento().getNumeroDosis());
+                int intervaloPaquetesDays = (int) Math.ceil((double) duracionTratamientoDays / totalPaquetesMedicamento);
+
                 for (int i = 0; i < totalPaquetesMedicamento; ++i) {
                     Receta r = new Receta();
                     r.setPrescripcion(p);
                     r.setEstado(EstadoReceta.GENERADA);                
-                    r.setCantidad(1);
+                    r.setCantidad(RECETA_CANTIDAD_POR_DEFECTO);
                     r.setInicioValidez(fechaInicio);
-                    fechaInicio = new Date(fechaInicio.getTime() + MS_IN_DAY * intervaloPaquetesDays);
-                    r.setFinValidez(fechaInicio);
+                    r.setFinValidez(new Date(fechaInicio.getTime() + MS_IN_DAY * RECETA_VALIDEZ_POR_DEFECTO));
+                    fechaInicio = new Date(fechaInicio.getTime() + MS_IN_DAY * intervaloPaquetesDays); // Calcular próxima fecha de inicio
                     recetaDAO.crear(r);
                 }
             }

@@ -12,8 +12,10 @@
                     <p:panelGrid columns="2" rendered="#{citasControlador.prescripcionActual != null}">
                         <h:outputLabel value="Medicamento:" for="medicamento"/>
                         <p:autoComplete id="medicamento" value="#{citasControlador.medicamentoSeleccionado}" 
-                                        var="medicamento" completeMethod="#{citasControlador.getMedicamentos}"                                        
-                                        itemValue="#{medicamento}" itemLabel="#{medicamento.nombre}" converter="medicamentoConverter"
+                                        var="medicamento" completeMethod="#{citasControlador.getMedicamentos}" 
+                                        itemValue="#{medicamento}"
+                                        itemLabel="#{medicamento.nombre}"
+                                        converter="#{medicamentoConverter}"
                                         dropdown="true" forceSelection="true" cache="true" maxResults="200">
                             <p:column>
                                 <h:outputText value="#{medicamento.nombre}"/>

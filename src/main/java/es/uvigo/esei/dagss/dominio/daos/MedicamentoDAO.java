@@ -15,7 +15,7 @@ import javax.persistence.Query;
 // @ManagedBean
 public class MedicamentoDAO extends GenericoDAO<Medicamento> {
 
-    public List<Medicamento> buscarPorCualquiera(String busqueda) {        
+    public List<Medicamento> buscarPorCualquiera(String busqueda) {
         Query q = em.createQuery("SELECT m FROM Medicamento AS m "
                             + " WHERE m.nombre LIKE :nombre "
                             + " OR m.familia LIKE :familia"
