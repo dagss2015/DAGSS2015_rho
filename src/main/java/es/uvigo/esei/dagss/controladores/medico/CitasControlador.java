@@ -35,8 +35,8 @@ import javax.inject.Named;
 @SessionScoped
 public class CitasControlador implements Serializable {
 
-    static final public int RECETA_VALIDEZ_POR_DEFECTO = 7; // Recetas con validez de una semana
-    static final public int RECETA_CANTIDAD_POR_DEFECTO = 1;
+    static final private int RECETA_VALIDEZ_POR_DEFECTO = 7; // Recetas con validez de una semana
+    static final private int RECETA_CANTIDAD_POR_DEFECTO = 1;
 
     @EJB
     CitaDAO citaDAO;
@@ -225,9 +225,9 @@ public class CitasControlador implements Serializable {
     
     public void borrarPrescripcion() {
         if (prescripcionActual != null) {
-            prescripcionDAO.eliminar(prescripcionActual);
             tratamientoActual.getPrescripciones().remove(prescripcionActual);
             tratamientoActual = tratamientoDAO.actualizar(tratamientoActual);
+            prescripcionDAO.eliminar(prescripcionActual);
         }
     }
     
@@ -251,7 +251,7 @@ public class CitasControlador implements Serializable {
 
     // Recetas
 
-    static final int MS_IN_DAY = 24 * 60 * 60 * 1000;
+    static final private int MS_IN_DAY = 24 * 60 * 60 * 1000;
     
     public void doGenerarPlanRecetas() {
         if (tratamientoActual != null) {
